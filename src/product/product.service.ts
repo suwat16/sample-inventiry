@@ -6,6 +6,7 @@ import {
 import { Inventory } from 'src/entity/inventory.entity';
 import { Product } from 'src/entity/product.entity';
 import { ProductRepository } from 'src/repository/product.repository';
+import { getConnection } from 'typeorm';
 import { ProductCreateDto } from './dto/product-create.dto';
 
 @Injectable()
@@ -53,5 +54,37 @@ export class ProductService {
 
   async getById(id: number): Promise<Product> {
     return await this.productRepository.getProductById(id);
+  }
+
+  async updateProduct(id: number, body: ProductCreateDto): Promise<Product> {
+    try {
+      const { sku_code, sku_name } = body;
+      const find = await this.productRepository.getProductById(id);
+
+      find.sku_code = sku_code;
+      find.sku_name = sku_name;
+      const saveData = await find.save();
+
+      return saveData;
+    } catch (error) {
+      console.log(error.message);
+      throw new BadRequestException();
+    }
+  }
+
+  async deleteProduct(id: number) {
+    try {
+      const find = await this.productRepository.getProductById(id);
+
+      const deleteData = await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Product)
+        .where({ id: find.id })
+        .execute();
+    } catch (error) {
+      console.log(error.message);
+      throw new BadRequestException();
+    }
   }
 }
