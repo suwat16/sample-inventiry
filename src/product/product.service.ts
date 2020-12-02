@@ -28,6 +28,11 @@ export class ProductService {
   async addProduct(body: ProductCreateDto): Promise<Product> {
     try {
       const { sku_code, sku_name } = body;
+      const find = await this.productRepository.findOne({
+        where: { sku_code: sku_code },
+      });
+
+      if (find) throw new Error('duplicate item.');
       const product = new Product();
       product.sku_code = sku_code;
       product.sku_name = sku_name;
@@ -44,5 +49,9 @@ export class ProductService {
       console.log(error.message);
       throw new BadRequestException();
     }
+  }
+
+  async getById(id: number): Promise<Product> {
+    return await this.productRepository.getProductById(id);
   }
 }
