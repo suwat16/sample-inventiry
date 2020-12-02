@@ -6,6 +6,7 @@ import {
 import { Inventory } from 'src/entity/inventory.entity';
 import { Product } from 'src/entity/product.entity';
 import { ProductRepository } from 'src/repository/product.repository';
+import { ProductCreateDto } from './dto/product-create.dto';
 
 @Injectable()
 export class ProductService {
@@ -24,7 +25,7 @@ export class ProductService {
     }
   }
 
-  async addProduct(body: any): Promise<Product> {
+  async addProduct(body: ProductCreateDto): Promise<Product> {
     try {
       const { sku_code, sku_name } = body;
       const product = new Product();

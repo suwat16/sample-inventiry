@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ProductCreateDto } from './dto/product-create.dto';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -12,7 +13,7 @@ export class ProductController {
   }
 
   @Post()
-  async addProduct(@Body() body: any): Promise<any> {
+  async addProduct(@Body() body: ProductCreateDto): Promise<any> {
     const dataSave = await this.productService.addProduct(body);
     return { data: dataSave };
   }
