@@ -33,6 +33,7 @@ export class Product extends MyBaseEntity {
   @OneToMany(
     () => Inventory,
     inventory => inventory.id,
+    { cascade: true },
   )
   inventories: Inventory[];
 

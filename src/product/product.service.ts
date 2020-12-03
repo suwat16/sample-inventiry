@@ -68,13 +68,6 @@ export class ProductService {
     try {
       const find = await this.productRepository.getProductById(id);
 
-      const deleteInventory = await getConnection()
-        .createQueryBuilder()
-        .delete()
-        .from(Inventory)
-        .where('product_id = :id', { id: find.id })
-        .execute();
-
       const deleteData = await getConnection()
         .createQueryBuilder()
         .delete()

@@ -11,6 +11,7 @@ export class Inventory extends MyBaseEntity {
   @ManyToOne(
     () => Product,
     product => product.inventories,
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({
     name: 'product_id',
