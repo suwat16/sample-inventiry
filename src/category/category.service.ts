@@ -1,20 +1,12 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Category } from 'src/entity/category.entity';
+import { CategoryRepository } from 'src/repository/category.repository';
 
 @Injectable()
 export class CategoryService {
-  constructor() {
-    this.init();
-  }
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
-  async init(): Promise<void> {
-    try {
-      const _category = new Category();
-      _category.name = 'uncategory';
-      await _category.save();
-    } catch (error) {
-      console.log(error.message);
-      throw new InternalServerErrorException();
-    }
+  async getCategory(): Promise<Category[]> {
+    return await this.categoryRepository.find({ relations: ['products'] });
   }
 }
