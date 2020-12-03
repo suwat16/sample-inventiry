@@ -14,12 +14,14 @@ export class Inventory extends MyBaseEntity {
   )
   @JoinColumn({
     name: 'product_id',
+    referencedColumnName: 'id',
   })
   product_id: Product | number;
 
-  @OneToOne(() => Users, { nullable: true })
-  @JoinColumn({
-    name: 'users_id',
-  })
-  users_id: Users | number;
+  // @OneToOne(() => Users, { nullable: true })
+  // @JoinColumn({
+  //   name: 'users_id',
+  //   referencedColumnName: 'id',
+  // })
+  // users_id: Users | number;
 }

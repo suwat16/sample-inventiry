@@ -7,10 +7,12 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ProductCreateDto } from './dto/product-create.dto';
+import { ProductFilterDto } from './dto/product-filter.dto';
 import { ProductService } from './product.service';
 
 @Controller('product')
@@ -18,15 +20,15 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
   @Get()
-  async getProduct(): Promise<any> {
-    const data = await this.productService.getProduct();
-    return { data: data };
+  async getProduct(@Query() filter: ProductFilterDto): Promise<any> {
+    const data = await this.productService.getProduct(filter);
+    return { success: true, data: data };
   }
 
   @Post()
   async addProduct(@Body() body: ProductCreateDto): Promise<any> {
     const dataSave = await this.productService.addProduct(body);
-    return { data: dataSave };
+    return { success: true, data: dataSave };
   }
 
   @Get(':id')
@@ -42,13 +44,13 @@ export class ProductController {
   ) {
     const data = await this.productService.updateProduct(id, body);
 
-    return { data: data };
+    return { success: true, data: data };
   }
 
   @Delete(':id/delete')
   async deleteProduct(@Param('id', ParseIntPipe) id: number) {
     const data = await this.productService.deleteProduct(id);
 
-    return { data: data };
+    return { success: true, data: data };
   }
 }

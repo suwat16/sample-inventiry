@@ -36,13 +36,13 @@ export class Product extends MyBaseEntity {
   )
   inventories: Inventory[];
 
-  @ManyToOne(
-    () => Users,
-    users => users.products,
-    { nullable: true },
-  )
-  @JoinColumn({
-    name: 'users_id',
-  })
-  users_id: Users | number;
+  // @ManyToOne(
+  //   () => Users,
+  //   users => users.products,
+  //   { nullable: true },
+  // )
+  // @JoinColumn({
+  //   name: 'users_id',
+  // })
+  // users_id: Users | number;
 }

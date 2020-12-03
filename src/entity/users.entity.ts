@@ -8,7 +8,7 @@ import {
 import { MyBaseEntity } from './mybase.entity';
 import { Product } from './product.entity';
 
-@Entity()
+// @Entity()
 export class Users extends MyBaseEntity {
   @Column({ type: 'uuid' })
   uuid: string;

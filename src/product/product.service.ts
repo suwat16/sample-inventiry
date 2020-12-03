@@ -8,22 +8,14 @@ import { Product } from 'src/entity/product.entity';
 import { ProductRepository } from 'src/repository/product.repository';
 import { getConnection } from 'typeorm';
 import { ProductCreateDto } from './dto/product-create.dto';
+import { ProductFilterDto } from './dto/product-filter.dto';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly productRepository: ProductRepository) {}
 
-  async getProduct(): Promise<Product[]> {
-    try {
-      const queryData = await this.productRepository.find({
-        select: ['id', 'sku_code', 'sku_name', 'quantity'],
-      });
-
-      return queryData;
-    } catch (error) {
-      console.log(error.message);
-      throw new NotFoundException();
-    }
+  async getProduct(filter: ProductFilterDto): Promise<Product[]> {
+    return await this.productRepository.getProductAndSearch(filter);
   }
 
   async addProduct(body: ProductCreateDto): Promise<Product> {
@@ -48,7 +40,7 @@ export class ProductService {
       return productData;
     } catch (error) {
       console.log(error.message);
-      throw new BadRequestException();
+      throw new BadRequestException(error.message);
     }
   }
 
