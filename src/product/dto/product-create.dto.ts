@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProductCreateDto {
   @IsString()
@@ -8,4 +8,8 @@ export class ProductCreateDto {
   @IsString()
   @IsOptional()
   sku_name: string;
+
+  @IsNumber()
+  @IsOptional()
+  category_id: number;
 }

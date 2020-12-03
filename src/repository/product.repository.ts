@@ -25,7 +25,8 @@ export class ProductRepository extends Repository<Product> {
       const { sku_code, sku_name } = filter;
       const queryData = await getConnection()
         .createQueryBuilder(Product, 'product')
-        .select(['id', 'sku_code', 'sku_name', 'quantity']);
+        .select(['id', 'sku_code', 'sku_name', 'quantity'])
+        .where('is_delete = :is_delete', { is_delete: false });
 
       if (sku_code) {
         queryData.andWhere('sku_code ILIKE :sku_code', {

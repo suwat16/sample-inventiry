@@ -7,6 +7,7 @@ import {
   OneToMany,
   UpdateDateColumn,
 } from 'typeorm';
+import { Category } from './category.entity';
 import { Inventory } from './inventory.entity';
 import { MyBaseEntity } from './mybase.entity';
 import { Users } from './users.entity';
@@ -22,6 +23,9 @@ export class Product extends MyBaseEntity {
   @Column({ type: 'int4' })
   quantity: number;
 
+  @Column({ type: 'boolean', default: false })
+  is_delete: boolean;
+
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updated_at: Date;
 
@@ -36,6 +40,14 @@ export class Product extends MyBaseEntity {
     { cascade: true },
   )
   inventories: Inventory[];
+
+  @ManyToOne(
+    () => Category,
+    category => category.id,
+    { nullable: true },
+  )
+  @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
+  category_id: Category | number;
 
   // @ManyToOne(
   //   () => Users,
