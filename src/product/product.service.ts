@@ -64,9 +64,16 @@ export class ProductService {
     }
   }
 
-  async deleteProduct(id: number) {
+  async deleteProduct(id: number): Promise<void> {
     try {
       const find = await this.productRepository.getProductById(id);
+
+      const deleteInventory = await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Inventory)
+        .where('product_id = :id', { id: find.id })
+        .execute();
 
       const deleteData = await getConnection()
         .createQueryBuilder()
