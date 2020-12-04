@@ -37,4 +37,19 @@ export class InventoryService {
       throw new BadRequestException(error.message);
     }
   }
+
+  async getInventoryById(id: number): Promise<Inventory[]> {
+    try {
+      const data = await this.inventoryRepository.find({
+        where: { product_id: id },
+      });
+
+      if (!data || !data.length) throw new Error('not found.');
+
+      return data;
+    } catch (error) {
+      console.log(error.message);
+      throw new BadRequestException(error.message);
+    }
+  }
 }

@@ -1,4 +1,11 @@
-import { Body, Controller, Param, ParseIntPipe, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { InventoryCreateDto } from './dto/inventory-create.dto';
 import { InventoryService } from './inventory.service';
 
@@ -13,6 +20,12 @@ export class InventoryController {
   ): Promise<any> {
     const data = await this.inventoryService.addQuantity(id, body);
 
-    return { data: data };
+    return { success: true, data: data };
+  }
+
+  @Get(':id/log')
+  async getInventoryById(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.inventoryService.getInventoryById(id);
+    return { success: true, data: data };
   }
 }
