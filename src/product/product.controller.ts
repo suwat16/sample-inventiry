@@ -11,6 +11,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { ApiParam } from '@nestjs/swagger/dist/decorators/api-param.decorator';
 import { ProductCreateDto } from './dto/product-create.dto';
 import { ProductFilterDto } from './dto/product-filter.dto';
 import { ProductService } from './product.service';
@@ -32,6 +33,7 @@ export class ProductController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', required: true, example: 12 })
   async getByID(@Param('id', ParseIntPipe) id: number) {
     const data = await this.productService.getById(id);
     return { data: data };
